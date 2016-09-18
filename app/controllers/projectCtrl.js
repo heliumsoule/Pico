@@ -37,7 +37,6 @@ function getTranformedImage(lat, lon, callback) {
 	get360Image(lat, lon, function(panID, S3Link){
 		// Convert the image into nueral model here
 		// let client = new neural_server.ImageStyleServer(server_loc, grpc.credentials.createInsecure())
-  //   	let name = panID + ".jpg";
   //   	let style_data = {name, aws_link};
   //   	client.styleImage(style_data, (err, response) => {
 		// 	if (err) {
@@ -69,14 +68,24 @@ io.on('connection', function(socket) {
   console.log("SOCKET.IO CONNECTION!");
 });
 
+io.on('pano', function(data) {
+	sendNextOrientationInfo(data.links);
+});
+
+function sendNextOrientationInfo(links) {
+	console.log("Next orientation");
+	// Need to fill in file format
+	var headings = links.map(function(link) {
+		return link.heading;
+	});
+
+	console.log(headings);
+}
+
 function getNextTileURL(lat, lon, callback) {
   console.log("getting next tile links");
   // Returns next possible locations for view for a given location
   io.sockets.emit('latlng', {lat: lat, lng: lon});
-  io.sockets.on('pano', function(data) {
-    callback(data.links);
-  });
-
 }
 
 function get360Image(lat, lon, callback) {
@@ -96,7 +105,7 @@ function get360Image(lat, lon, callback) {
 
 function uploadS3Image(panID, callback) {
 	var dummyS3URL = "https://s3.amazonaws.com/normalpicture/AEnBXl1TWo1KDmUduOhq3A.jpg";
-	callback(pandID, dummyS3URL);
+	callback(panID, dummyS3URL);
 
 	// var client = new Upload('my_s3_bucket', {
 	// 	aws: AWS, 
@@ -118,7 +127,8 @@ function uploadS3Image(panID, callback) {
 	// });
 }
 
-function generate360Image(panID, callback) {	
+function generate360Image(panID, callback) {
+	console.log("Running script");	
 	var child = exec('$PWD/streetviewdownload.sh ' + panID, function(error, stdout, stderr) {
   		if (error) console.log(error);
   		callback(panID);
@@ -156,6 +166,6 @@ exports.getImages = function(req, res) {
 		});
 	} else if (req.params.bool === "false") {
 		// Send only next tile URL
-		// res.send(getNextTileURL(lat, lon))
+		res.send(getNextTileURL(lat, lon));
 	}
 };

@@ -10,18 +10,16 @@
     <script>
       var socket = io();
 
-      io.on('connection', function(socket) {
-        console.log('SOCKET.IO CONNECTION!');
-
         socket.on('latlng', function(data) {
-          getPano({lat: data.lat, lng: data.lng}, function(data) {
+          console.log("Getting request from backend");
+          getPano({lat: parseFloat(data.lat), lng: parseFloat(data.lng)}, function(data) {
             socket.emit('pano', data);
+            console.log("Emitting data");
           });
         });
-      });
 
       // latlng: {lat: ___, lng: ___}
-      function initPano(latlng, callback) {
+      function getPano(latlng, callback) {
         // Set up Street View and initially set it visible. Register the
         // custom panorama provider function. Set the StreetView to display
         // the custom panorama 'reception' which we check for below.
@@ -34,6 +32,6 @@
         });
       }
     </script>
-    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBShqipTjfSqOq7jpuNMK4b7sXNYEzEy3s&callback=initPano"></script>
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBShqipTjfSqOq7jpuNMK4b7sXNYEzEy3s"></script>
   </body>
 </html>
