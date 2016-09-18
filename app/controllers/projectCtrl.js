@@ -52,19 +52,19 @@ function getTranformedImage(lat, lon, callback) {
 
 
 let classify = (name, aws_link) => {
-    let client = new neural_server.ImageStyleServer(server_loc, grpc.credentials.createInsecure())
-    let style_data = {name, aws_link};
+  //   let client = new neural_server.ImageStyleServer(server_loc, grpc.credentials.createInsecure())
+  //   let style_data = {name, aws_link};
     
-    client.styleImage(style_data, (err, response) => {
-		if (err) {
-		    console.log("The error was", err);
-		} else {
-		    console.log("The server response was", response);
-		}
-    });
+  //   client.styleImage(style_data, (err, response) => {
+		// if (err) {
+		//     console.log("The error was", err);
+		// } else {
+		//     console.log("The server response was", response);
+		// }
+  //   });
+}
 
 var io = require('../../server').io;
-
 io.on('connection', function(socket) {
   console.log("SOCKET.IO CONNECTION!");
 });
