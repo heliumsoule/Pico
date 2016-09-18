@@ -1,21 +1,16 @@
 
 // DEPENDENCIES
 // ==============================================
+
 var express = require('express');
-var app = express();
+var AWS = require('aws-sdk');
 var server = require('http').createServer(app);
 var config = require('./config.js')
-var mongoose = require('mongoose');
-
-
+var app = express();
 
 
 // CONFIGURATION
 // ==============================================
-// Connect to DB
-// var db = config.database;
-// mongoose.connect(db);
-
 
 // BodyParser for POST requests
 app.use('/', express.static('public'));
@@ -24,6 +19,8 @@ app.use('/', express.static('public'));
 var apiRouter = require('./app/routes/api.js');
 app.use('/api', apiRouter);
 
+// Setting up  S3
+var s3 = new AWS.S3(); 
 
 
 // START SERVER
