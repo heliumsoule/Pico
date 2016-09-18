@@ -2,6 +2,9 @@ var spawn = require('child_process').spawn;
 var sys = require('sys');
 var exec = require('child_process').exec;
 require('shelljs/global');
+
+var AWS = require('aws-sdk');
+AWS.config.region = 'us-east-1';
 var Upload = require('s3-uploader');
 var panorama = require('google-panorama-by-location'); 
 
@@ -13,7 +16,8 @@ function getNextTileURL(lat, lon) {
 
 function getTranformedImage(lat, lon, callback) {
 	get360Image(lat, lon, function(S3Link){
-		// Convert the image into nueral model
+		// Convert the image into nueral model here
+		// NOTE: Jing, Do the model callback here
 
 	});
 }
@@ -24,9 +28,33 @@ function get360Image(lat, lon, callback) {
 		// Generating image from panID
 		generate360Image(panID, function(panID) {
 			// Upload picture to S3 here
-			var link = "dummy-S3-link/" + panID;
-			callback(link);
+			uploadS3Image(panID, function(S3Link) {
+				// Passing back uploaded link
+				callback(S3Link);	
+			});
+			
 		});
+	});
+}
+
+function uploadS3Image(panID, callback) {
+	var client = new Upload('my_s3_bucket', {
+		aws: AWS, 
+		versions: [{
+	    	maxHeight: 4000,
+	    	maxWidth: 8000,
+	    	format: 'jpg',
+	    	quality: 80,
+	  	}]
+	});
+	// NOTE: Upload the picture here
+	client.upload("/picture/" + panID + ".jpg", {}, function(err, versions, meta) {
+  		if (err) { throw err; }
+  		versions.forEach(function(image) {
+    		console.log(image.width, image.height, image.url);
+    		callback(image.url);
+    		// 1024 760 https://my-bucket.s3.amazonaws.com/path/110ec58a-a0f2-4ac4-8393-c866d813b8d1.jpg 
+  		});
 	});
 }
 
