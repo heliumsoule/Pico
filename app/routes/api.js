@@ -12,7 +12,6 @@ var messagesCtrl = require('../controllers/messagesCtrl');
 
 // ROUTES
 // ==============================================
-
 var router = express.Router();
 
 // Return image if true 
@@ -49,5 +48,21 @@ router.route('/images/:lat/:lon/:bool').get()
 // router.route('/update').post(updateCtrl.create);
 // router.route('/update/update_priority').post(updateCtrl.updatePriority);
 // router.route('/update/get_update_for_user').post(updateCtrl.getUpdateForUser);
+
+function foo() {
+  var gmAPI = new GoogleMapsAPI();
+  var params = {
+    location: '51.507868,-0.087689',
+    size: '1200x1600',
+    heading: 108.4,
+    pitch: 7,
+    fov: 40
+  };
+  var result = gmAPI.streetView(params);
+  console.log(result);
+}
+
+router.route('/foo').get(foo);
+
 
 module.exports = router
