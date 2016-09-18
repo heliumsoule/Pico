@@ -1,13 +1,17 @@
 import sys
 sys.path.append('proto')
 
+import lutorpy as Lua
 import neural_contract_pb2 as neural_server
 import time
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
+require('neural_style')
+
 class Style_Server_Handler(neural_server.BetaImageStyleServerServicer):
 	def __init__(self):
-		print("Hello")
+		self.model = random
+		print(self.model("hello"))
 
 	def styleImage(self, request, context):
 		response = neural_server.style_img()
