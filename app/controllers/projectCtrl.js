@@ -8,7 +8,7 @@ function getNextTileURL(lat, lon, callback) {
   console.log("getting next tile links");
   // Returns next possible locations for view for a given location
   io.sockets.emit('latlng', {lat: lat, lng: lon});
-  socket.on('pano', function(data) {
+  io.sockets.on('pano', function(data) {
     callback(data.links);
   });
 }
