@@ -5,6 +5,7 @@ io.on('connection', function(socket) {
 });
 
 function getNextTileURL(lat, lon, callback) {
+  console.log("getting next tile links");
   // Returns next possible locations for view for a given location
   io.sockets.emit('latlng', {lat: lat, lng: lon});
   socket.on('pano', function(data) {
@@ -13,22 +14,23 @@ function getNextTileURL(lat, lon, callback) {
 }
 
 function get360Image(lat, lon, callback) {
+  console.log("getting panorama image");
   // Creates
 }
 
 exports.getImages = function(req, res) {
-  if (!req.body.lat) {
+  if (!req.params.lat) {
     return res.status(404).send("Lat not found");
   }
 
-  if (!req.body.lon) {
+  if (!req.params.lon) {
     return res.status(404).send("Lon not found");
   }
-  var lat = req.body.lat;
-  var lon = req.body.lon;
-  var bool = req.body.bool;
+  var lat = req.params.lat;
+  var lon = req.params.lon;
+  var bool = req.params.bool;
 
-  if (req.body.bool) {
+  if (req.params.bool) {
     get360Image(lat, lon, function(image_link) {
       res.send(image_link);
     });
