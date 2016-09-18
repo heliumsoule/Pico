@@ -1,0 +1,33 @@
+yntax = 'proto3';
+
+package cnnclassify;
+
+message ImgsClassRequest {
+    repeated ImgClassRequest imgsRequest = 1;
+}
+
+message ImgClassRequest {
+    string filename = 1;
+    string awsLink = 2;
+}
+
+message ImgsClassResponse {
+    repeated ImgClassResponse imgResponses = 1;
+}
+
+message ImgClassResponse {
+    message ClassLikelihood {
+        string pclass = 1;
+        double prob = 2;
+    }
+    repeated ClassLikelihood class_and_likelihood = 1;
+    string imgname = 2;
+    string heatmap = 3;
+    string normimg = 4;
+}
+
+
+service ClassificationServer {
+    rpc ClassifyImages (ImgsClassRequest) returns (ImgsClassResponse) {}
+}
+

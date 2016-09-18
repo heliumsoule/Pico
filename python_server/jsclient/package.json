@@ -1,0 +1,14 @@
+{
+  "name": "jsclient",
+  "version": "1.0.0",
+  "description": "Pico JavaScript client",
+  "main": "client.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "grpc": "^1.0.0"
+  }
+}

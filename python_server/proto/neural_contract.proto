@@ -1,0 +1,19 @@
+syntax = 'proto3';
+
+package neuralstyle;
+
+message input_img {
+    string name = 1;
+    string aws_link = 2;
+}
+
+message style_img {
+    string name = 1;
+    string aws_link = 2;
+    string style = 3;
+}
+
+service ImageStyleServer {
+    rpc styleImage (input_img) returns (style_img) {}
+}
+
