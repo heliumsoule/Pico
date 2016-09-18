@@ -4,10 +4,9 @@
 
 var express = require('express');
 var AWS = require('aws-sdk');
-var server = require('http').createServer(app);
 var config = require('./config.js')
 var app = express();
-
+var server = require('http').createServer(app);
 
 // CONFIGURATION
 // ==============================================

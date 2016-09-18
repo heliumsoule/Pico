@@ -1,25 +1,29 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Socket.IO Chat Example</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-
-  <div style="margin: 15px;">
-    <textarea id="messageText" row="5" style="padding: 15px; width: 200px;"></textarea>
-    <br>
-    <button id="sendButton">Send!</button>
-  </div>
-
-  <ul>
-    <li></li>
-  </ul>
-
-  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-  <script src="socket.io.js"></script>
-  <script src="main.js"></script>
-</body>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Custom Street View panoramas</title>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="socket.io.js"></script>
+  </head>
+  <body>
+    <script>
+      function initPano() {
+        // Set up Street View and initially set it visible. Register the
+        // custom panorama provider function. Set the StreetView to display
+        // the custom panorama 'reception' which we check for below.
+        let sv_service = new google.maps.StreetViewService();
+        var fenway = {lat: 42.345573, lng: -71.098326};
+        sv_service.getPanorama({
+          location: fenway
+        }, function(data, status) {
+          var panorama = data.location.pano;
+          console.log(status);
+          console.log(data);
+          console.log(data.links);
+        });
+      }
+    </script>
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBShqipTjfSqOq7jpuNMK4b7sXNYEzEy3s&callback=initPano"></script>
+  </body>
 </html>

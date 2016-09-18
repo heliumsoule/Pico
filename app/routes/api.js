@@ -17,17 +17,4 @@ var router = express.Router();
 // url float
 router.route('/images/:lat/:lon/:bool').get(projectCtrl.getImages)
 
-function foo() {
-var gmAPI = new GoogleMapsAPI({key: "AIzaSyCk4sjVUH-SlZHXYdoulRthmMwjGCEPYQo"});
-  var params = {
-    location: '51.507868,-0.087689',
-    size: '1200x1600'
-  };
-  var result = gmAPI.streetView(params);
-  console.log(result);
-}
-
-router.route('/foo').get(foo);
-
-
 module.exports = router
