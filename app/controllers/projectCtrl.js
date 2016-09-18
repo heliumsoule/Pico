@@ -1,4 +1,4 @@
-function getNextTileURL(lat, lon) {
+function getNextTileURL(lat, lon, callback) {
 	// Returns next possible locations for view for a given location
 
 }
