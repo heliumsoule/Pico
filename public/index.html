@@ -11,23 +11,26 @@
       var socket = io();
 
       io.on('connection', function(socket) {
-        console.log("SOCKET.IO CONNECTION!");
+        console.log('SOCKET.IO CONNECTION!');
+
+        socket.on('latlng', function(data) {
+          getPano({lat: data.lat, lng: data.lng}, function(data) {
+            socket.emit('pano', data);
+          });
+        });
       });
 
-
-      function initPano() {
+      // latlng: {lat: ___, lng: ___}
+      function initPano(latlng, callback) {
         // Set up Street View and initially set it visible. Register the
         // custom panorama provider function. Set the StreetView to display
         // the custom panorama 'reception' which we check for below.
         let sv_service = new google.maps.StreetViewService();
-        var fenway = {lat: 42.345573, lng: -71.098326};
         sv_service.getPanorama({
-          location: fenway
+          location: latlng
         }, function(data, status) {
-          var panorama = data.location.pano;
           console.log(status);
-          console.log(data);
-          console.log(data.links);
+          callback(data);
         });
       }
     </script>
