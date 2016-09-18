@@ -13,8 +13,8 @@ var mongoose = require('mongoose');
 // CONFIGURATION
 // ==============================================
 // Connect to DB
-var db = config.database;
-mongoose.connect(db);
+// var db = config.database;
+// mongoose.connect(db);
 
 
 // BodyParser for POST requests
