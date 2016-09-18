@@ -1,10 +1,20 @@
+var AWS = require('aws-sdk');
+
 function getNextTileURL(lat, lon, callback) {
 	// Returns next possible locations for view for a given location
 
 }
 
 function get360Image(lat, lon, callback) {
-	// Creates 
+	// Creates image based on location
+
+	// Uploads the link to S3 bucket
+
+}
+
+function upload_imageToS3(image) {
+	
+
 }
 
 
