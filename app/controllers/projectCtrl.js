@@ -35,6 +35,7 @@ var panorama = require('google-panorama-by-location');
 
 function getTranformedImage(lat, lon, callback) {
 	get360Image(lat, lon, function(panID, S3Link){
+		callback(panID, S3Link);
 		// Convert the image into nueral model here
 		// let client = new neural_server.ImageStyleServer(server_loc, grpc.credentials.createInsecure())
   //   	let style_data = {name, aws_link};
@@ -69,6 +70,7 @@ io.on('connection', function(socket) {
 });
 
 io.on('pano', function(data) {
+	console.log("Pano callback called", data);
 	sendNextOrientationInfo(data.links);
 });
 
@@ -86,6 +88,9 @@ function getNextTileURL(lat, lon, callback) {
   console.log("getting next tile links");
   // Returns next possible locations for view for a given location
   io.sockets.emit('latlng', {lat: lat, lng: lon});
+
+  var data = "/images/42.3614748/-71.0921677, -19 \n /images/41.3614748/-70.0921677, 160";
+  callback(data);
 }
 
 function get360Image(lat, lon, callback) {
@@ -161,11 +166,13 @@ exports.getImages = function(req, res) {
 	var bool = req.params.bool;
 
 	if (req.params.bool === "true") {
-		get360Image(lat, lon, function(image_link) {
+		get360Image(lat, lon, function(panID, image_link) {
 			res.send(image_link);
 		});
 	} else if (req.params.bool === "false") {
 		// Send only next tile URL
-		res.send(getNextTileURL(lat, lon));
+		getNextTileURL(lat, lon, function(data){
+			res.send(data);
+		});
 	}
 };
