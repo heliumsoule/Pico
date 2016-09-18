@@ -2,10 +2,10 @@
 // Model Functions
 const path = require('path');
 
-let grpc = require('grpc');
-const PROTO_PATH = path.resolve('../python_server/proto/neural_contract.proto');
-let server_loc = 'ec2-54-172-29-68.compute-1.amazonaws.com';
-let neural_server = grpc.load(PROTO_PATH).neuralstyle;
+// let grpc = require('grpc');
+// const PROTO_PATH = path.resolve('../python_server/proto/neural_contract.proto');
+// let server_loc = 'ec2-54-172-29-68.compute-1.amazonaws.com';
+// let neural_server = grpc.load(PROTO_PATH).neuralstyle;
 
 // Setting up image related things
 var spawn = require('child_process').spawn;
@@ -15,7 +15,7 @@ require('shelljs/global');
 
 var AWS = require('aws-sdk');
 AWS.config.region = 'us-east-1';
-var Upload = require('s3-uploader');
+// var Upload = require('s3-uploader');
 var panorama = require('google-panorama-by-location'); 
 
 // var io = require('../../server').io;
@@ -136,7 +136,7 @@ exports.getImages = function(req, res) {
 	var bool = req.params.bool;
 
 	if (req.params.bool === "true") {
-		getTranformedImage(lat, lon, function(image_link) {
+		get360Image(lat, lon, function(image_link) {
 			res.send(image_link);
 		});
 	} else if (req.params.bool === "false") {
