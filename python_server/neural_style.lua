@@ -45,41 +45,18 @@ cmd:option('-seed', -1)
 cmd:option('-content_layers', 'relu4_2', 'layers for content')
 cmd:option('-style_layers', 'relu1_1,relu2_1,relu3_1,relu4_1,relu5_1', 'layers for style')
 
-local function main(params)
-  if params.gpu >= 0 then
-    if params.backend ~= 'clnn' then
-      require 'cutorch'
-      require 'cunn'
-      cutorch.setDevice(params.gpu + 1)
-    else
-      require 'clnn'
-      require 'cltorch'
-      cltorch.setDevice(params.gpu + 1)
-    end
-  else
-    params.backend = 'nn'
-  end
+function loadModel()
+  require 'cutorch'
+  require 'cunn'
+  require 'cudnn'
+  cudnn.SpatialConvolution.accGradParameters = nn.SpatialConvolutionMM.accGradParameters -- ie: nop
 
-  if params.backend == 'cudnn' then
-    require 'cudnn'
-    if params.cudnn_autotune then
-      cudnn.benchmark = true
-    end
-    cudnn.SpatialConvolution.accGradParameters = nn.SpatialConvolutionMM.accGradParameters -- ie: nop
-  end
-  
-  local loadcaffe_backend = params.backend
-  if params.backend == 'clnn' then loadcaffe_backend = 'nn' end
-  local cnn = loadcaffe.load(params.proto_file, params.model_file, loadcaffe_backend):float()
-  if params.gpu >= 0 then
-    if params.backend ~= 'clnn' then
-      cnn:cuda()
-    else
-      cnn:cl()
-    end
-  end
-  
-  local content_image = image.load(params.content_image, 3)
+  local loadcaffe_backend = 'cudnn'
+  cnn = loadcaffe.load(params.proto_file, params.model_file, loadcaffe_backend):cuda()
+end
+
+function main(params, imagename)  
+  local content_image = image.load(imagename, 3)
   content_image = image.scale(content_image, params.image_size, 'bilinear')
   local content_image_caffe = preprocess(content_image):float()
   
@@ -510,11 +487,3 @@ function TVLoss:updateGradInput(input, gradOutput)
   return self.gradInput
 end
 
-function random(str)
-	print("The string is")
-	print(str)
-end
-
-
---local params = cmd:parse(arg)
---main(params)

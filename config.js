@@ -1,4 +1,4 @@
 module.exports = {
   'bucket': "normal_img", 
-  "port": "8080"
+  "port": "8000"
 };
