@@ -36,17 +36,17 @@ var panorama = require('google-panorama-by-location');
 function getTranformedImage(lat, lon, callback) {
 	get360Image(lat, lon, function(panID, S3Link){
 		// Convert the image into nueral model here
-		let client = new neural_server.ImageStyleServer(server_loc, grpc.credentials.createInsecure())
-    	let name = panID + ".jpg";
-    	let style_data = {name, aws_link};
-    	client.styleImage(style_data, (err, response) => {
-			if (err) {
-		    	console.log("The error was", err);
-			} else {
-		    	console.log("The server response was", response);
-		    	callback(response.aws_link);
-			}
-    	});
+		// let client = new neural_server.ImageStyleServer(server_loc, grpc.credentials.createInsecure())
+  //   	let name = panID + ".jpg";
+  //   	let style_data = {name, aws_link};
+  //   	client.styleImage(style_data, (err, response) => {
+		// 	if (err) {
+		//     	console.log("The error was", err);
+		// 	} else {
+		//     	console.log("The server response was", response);
+		//     	callback(response.aws_link);
+		// 	}
+  //   	});
 	});
 }
 
@@ -62,6 +62,21 @@ let classify = (name, aws_link) => {
 		    console.log("The server response was", response);
 		}
     });
+
+var io = require('../../server').io;
+
+io.on('connection', function(socket) {
+  console.log("SOCKET.IO CONNECTION!");
+});
+
+function getNextTileURL(lat, lon, callback) {
+  console.log("getting next tile links");
+  // Returns next possible locations for view for a given location
+  io.sockets.emit('latlng', {lat: lat, lng: lon});
+  io.sockets.on('pano', function(data) {
+    callback(data.links);
+  });
+
 }
 
 function get360Image(lat, lon, callback) {
