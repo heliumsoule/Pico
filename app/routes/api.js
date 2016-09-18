@@ -11,20 +11,17 @@ var projectCtrl = require('../controllers/projectCtrl');
 // ==============================================
 var router = express.Router();
 
-// Return image if true 
-// Return string 
-// url, float - angle \n 
+// Return image if true
+// Return string
+// url, float - angle \n
 // url float
 router.route('/images/:lat/:lon/:bool').get(projectCtrl.getImages)
 
 function foo() {
-  var gmAPI = new GoogleMapsAPI();
+var gmAPI = new GoogleMapsAPI({key: "AIzaSyCk4sjVUH-SlZHXYdoulRthmMwjGCEPYQo"});
   var params = {
     location: '51.507868,-0.087689',
-    size: '1200x1600',
-    heading: 108.4,
-    pitch: 7,
-    fov: 40
+    size: '1200x1600'
   };
   var result = gmAPI.streetView(params);
   console.log(result);
