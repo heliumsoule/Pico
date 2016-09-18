@@ -10,12 +10,11 @@
   "license": "MIT",
   "dependencies": {
     "async-waterfall": "^0.1.5",
+    "aws-sdk": "^2.6.3",
     "body-parser": "~1.10.2",
     "connect-redis": "^3.0.2",
     "cookie-parser": "^1.4.1",
     "express": "~4.11.1",
-    "mongoose": "~3.8.21",
-    "nodemon": "^1.8.1",
     "express-session": "^1.13.0",
     "googlemaps": "^1.11.1",
     "isarray": "^1.0.0",
