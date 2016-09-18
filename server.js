@@ -7,6 +7,9 @@ var AWS = require('aws-sdk');
 var config = require('./config.js')
 var app = express();
 var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+
+module.exports.io = io;
 
 // CONFIGURATION
 // ==============================================
@@ -19,8 +22,7 @@ var apiRouter = require('./app/routes/api.js');
 app.use('/api', apiRouter);
 
 // Setting up  S3
-var s3 = new AWS.S3(); 
-
+var s3 = new AWS.S3();
 
 // START SERVER
 // ==============================================
