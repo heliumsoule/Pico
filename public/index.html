@@ -4,10 +4,17 @@
     <title>Custom Street View panoramas</title>
     <meta charset="utf-8">
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="socket.io.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
   </head>
   <body>
     <script>
+      var socket = io();
+
+      io.on('connection', function(socket) {
+        console.log("SOCKET.IO CONNECTION!");
+      });
+
+
       function initPano() {
         // Set up Street View and initially set it visible. Register the
         // custom panorama provider function. Set the StreetView to display
