@@ -8,6 +8,7 @@
 # 
 name=$1
 currentDir=$(pwd)/$name
+picturePATH=$(pwd)/"picture"/$name
 url='http://cbk0.google.com/cbk?output=tile&panoid='$1'&zoom=5&x=[00-25]&y=[00-12]'
 tile='tile_y#2-x#1.jpg'
 echo "CREATE DIRECTORY:"$currentDir
@@ -15,4 +16,6 @@ mkdir -p "$currentDir"
 echo "DOWNLOADING"
 curl $url -o "$currentDir/$tile"
 echo "CREATING PANORAMA"
-gm montage +frame +shadow -tile 26x13 -geometry 400x400+0+0 "$currentDir/tile_*.jpg" "$currentDir.jpg"
+mkdir -p "picture"
+echo picturePATH
+gm montage +frame +shadow -tile 26x13 -geometry 400x400+0+0 "$currentDir/tile_*.jpg" "$picturePATH.jpg"
