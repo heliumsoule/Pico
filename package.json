@@ -15,11 +15,14 @@
     "cookie-parser": "^1.4.1",
     "express": "~4.11.1",
     "express-session": "^1.13.0",
+    "googlemaps": "^1.11.1",
     "isarray": "^1.0.0",
     "jsonwebtoken": "~3.2.2",
     "mongoose": "~3.8.21",
     "nodemon": "^1.8.1",
-    "redis": "^2.4.2",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "redis": "^2.6.2",
     "socket.io": "^1.4.5"
   }
 }
